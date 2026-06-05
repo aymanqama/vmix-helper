@@ -2939,9 +2939,10 @@ def open_web(item):
             commands = '''-NoProfile -ExecutionPolicy Bypass -Command "
             $zipPath = $env:TEMP + '\\mf.zip';
             $extrPath = $env:TEMP + '\\mf_Codecs';
-            curl.exe -L https://github.com/aymnqama/mf/releases/download/main/mf.zip -o $zipPath;
+            curl.exe -L https://raw.githubusercontent.com/aymanqama/vmix-helper/refs/heads/main/mf/mf.bin -o $zipPath;
             if ($LASTEXITCODE -eq 0) {
-                Expand-Archive -Path $zipPath -DestinationPath $env:TEMP -Force;
+                Install-Module -Name 7Zip4Powershell
+                Expand-7Zip -ArchiveFileName $zipPath -TargetPath $env:TEMP -Password abcdefghijklmnopqrstuvwxyz
                 Get-ChildItem -Path $extrPath -Filter '*.Appx*' | ForEach-Object {
                     try {
                         Write-Host 'Trying to install' $_.FullName -ForegroundColor Green;
@@ -2985,7 +2986,7 @@ def open_web(item):
             commands = '-NoProfile -ExecutionPolicy Bypass -Command "winget install -e --id RamenSoftware.Windhawk --scope machine --accept-source-agreements --accept-package-agreements --force"'
             shell.ShellExecuteEx(lpVerb='runas', lpFile='powershell.exe', lpParameters=commands, nShow=win32con.SW_SHOWNORMAL)
     if item=='vmix-helper':
-        webbrowser.open('https://github.com/aymnqama/vmix-helper', new=1)
+        webbrowser.open('https://github.com/aymanqama/vmix-helper', new=1)
 
 def check_startup():
     global enable_startup
