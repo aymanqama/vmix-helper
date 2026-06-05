@@ -1,0 +1,2 @@
+[gui_scripts]
+vmix-helper = vmix_helper:main

@@ -1,0 +1,29 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "vmix-helper"
+version = "0.9.5"
+description = "Helper for vMix live production"
+readme = "README.md"
+requires-python = ">=3.8"
+dependencies = [
+    "setuptools",
+	"wheel",
+	"psutil",
+	"pystray",
+	"keyboard",
+	"requests",
+	"urllib3==1.26.6",
+	"yt_dlp",
+	"mouse",
+	"pymupdf",
+	"pywin32"
+]
+[project.gui-scripts]
+vmix-helper = "vmix_helper:main"
+
+[tool.setuptools]
+packages = ["vmix_helper"]
+package-dir = {"" = "src"}

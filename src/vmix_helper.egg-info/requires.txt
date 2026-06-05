@@ -1,0 +1,11 @@
+setuptools
+wheel
+psutil
+pystray
+keyboard
+requests
+urllib3==1.26.6
+yt_dlp
+mouse
+pymupdf
+pywin32

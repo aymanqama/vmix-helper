@@ -1,0 +1,10 @@
+README.md
+pyproject.toml
+src/vmix_helper/__init__.py
+src/vmix_helper/vmix_helper.py
+src/vmix_helper.egg-info/PKG-INFO
+src/vmix_helper.egg-info/SOURCES.txt
+src/vmix_helper.egg-info/dependency_links.txt
+src/vmix_helper.egg-info/entry_points.txt
+src/vmix_helper.egg-info/requires.txt
+src/vmix_helper.egg-info/top_level.txt
