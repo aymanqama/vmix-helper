@@ -596,7 +596,9 @@ translation_dict = {
     'Please select file input.':
         'Please select file input.',
     'Primary':
-        'Primary'
+        'Primary',
+    'Convert PDF to Pictures':
+        'Convert PDF to Pictures'
 }
 #################################################translation section
 def t(string):
