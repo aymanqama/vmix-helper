@@ -1986,6 +1986,7 @@ class pdf2png_window:
                 output_image_path = os.path.join(target_folder, f'page_{(page_num+1):04d}.png')
                 pix.save(output_image_path)
             doc.close()
+            pymupdf.TOOLS.store_shrink(100)
             if import_vmix:
                 page = f'http://127.0.0.1:{str(vmix_port)}/api/?Function=AddInput&Value=Photos|{target_folder}'
                 try:
