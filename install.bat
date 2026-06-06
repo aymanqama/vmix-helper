@@ -70,7 +70,7 @@ if defined pip_cmd (
     echo Python not found we will try to install it.
 	powershell -NoProfile -ExecutionPolicy Bypass -Command ^"^
 		try{^
-			$process = Start-Process powershell -Verb RunAs -Wait -PassThru -ArgumentList '-NoExit -NoProfile -Command \^"^
+			$process = Start-Process powershell -Verb RunAs -Wait -PassThru -ArgumentList '-NoProfile -Command \^"^
 				try {^
 					Get-Command winget -ErrorAction Stop;^
 					winget settings --enable BypassCertificatePinningForMicrosoftStore;^
@@ -80,7 +80,7 @@ if defined pip_cmd (
 						winget install -e --id ''Microsoft.VCRedist.2015+.x64'' --scope machine --accept-source-agreements --accept-package-agreements;^
 						exit 0;^
 					}^
-					pause;^
+					Read-Host ''Press Enter to exit...'';^
 					exit 1;^
 				} catch {^
 					$retryCount = 0;^
@@ -101,7 +101,7 @@ if defined pip_cmd (
 								winget install -e --id ''Microsoft.VCRedist.2015+.x64'' --scope machine --accept-source-agreements --accept-package-agreements;^
 								exit 0;^
 							}^
-							pause;^
+							Read-Host ''Press Enter to exit...'';^
 							exit 1;^
 						} catch {^
 							$retryCount++;^
@@ -109,18 +109,11 @@ if defined pip_cmd (
 							Write-Host ''Trying Again.'' -ForegroundColor Green;^
 						}^
 					}^
-					pause;^
+	 				Read-Host ''Press Enter to exit...'';^
 					exit 1;^
 				}\^"' -ErrorAction Stop;^
-			if ^($process.ExitCode -ne 0^) {^
-				Write-Host ''An error occurred: '' $_.Exception.Message -ForegroundColor Red;^
-				pause;^
-				exit 1;^
-			}^
-			exit 0;^
+			exit $process.ExitCode;^
 		}catch{^
-			Write-Host ''An error occurred: '' $_.Exception.Message -ForegroundColor Red;^
-			pause;^
 			exit 1;^
 		}"
 	if !errorlevel! equ 0 (
@@ -129,6 +122,7 @@ if defined pip_cmd (
 		start "" "%0" 1 !sele!
 		exit 0
 	)
+	echo 'An error has occurred'
 	pause
 	exit 1
 )
