@@ -2944,7 +2944,7 @@ def open_web(item):
             $extrPath = $env:TEMP + '\\mf_Codecs';
             curl.exe -L https://raw.githubusercontent.com/aymanqama/vmix-helper/refs/heads/main/mf/mf.bin -o $zipPath;
             if ($LASTEXITCODE -eq 0) {
-                Install-Module -Name 7Zip4Powershell
+                Install-Module -Name 7Zip4Powershell -Force
                 Expand-7Zip -ArchiveFileName $zipPath -TargetPath $env:TEMP -Password abcdefghijklmnopqrstuvwxyz
                 Get-ChildItem -Path $extrPath -Filter '*.Appx*' | ForEach-Object {
                     try {
