@@ -1313,63 +1313,67 @@ def on_key_press_thread(key_pressed,active_control_hwnd):
         if len(windows)>0:
             if key!='foreground': processes_found.append(key)
             for window in windows:
-                classes_found.append(window['class_name'])
-                if 'window_title_contain' in value and len(value['window_title_contain'])>0:
-                    if not any(keyword in window['title'] for keyword in value['window_title_contain']):
-                        continue
-                    else:
-                        if 'window_title_not_contain' in value and len(value['window_title_not_contain'])>0:
-                            if any(keyword in window['title'] for keyword in value['window_title_not_contain']):
-                                continue
-                if 'window_class_contain' in value and len(value['window_class_contain'])>0:
-                    if not any(keyword in window['class_name'] for keyword in value['window_class_contain']):
-                        continue
-                if 'need_to_activate' in value and value['need_to_activate']:
-                    if len(set(processes_found).intersection(set(value['dont_activate_if_process_exist']))) == 0 and len(set(classes_found).intersection(set(value['dont_activate_if_window_class_exist']))) == 0:
-                        if window['hwnd'] != win32gui.GetForegroundWindow():
-                            for i in range(2):
-                                try:
-                                    win32gui.SetForegroundWindow(window['hwnd'])
-                                    time.sleep(0.05)
-                                except:
-                                    pass
-                if key=='foreground':
-                    key_code1 = key_codes[key_pressed.split('+',1)[0]] if key_pressed!='+' else '+'
-                    try:key_code2 = key_codes[key_pressed.split('+',1)[1]]
-                    except:key_code2=None
-                elif key==vmix_process_name:
-                    if 'send_key_stroks_to_vmix' in value['keys'][key_pressed]:
-                        key_code1 = key_codes[value['keys'][key_pressed]['send_key_stroks_to_vmix'][(modifier if modifier in value['keys'][key_pressed]['send_key_stroks_to_vmix'] else '')]] if key_pressed in value['keys'] else key_codes[(key_pressed.split('+')[0] if key_pressed!='+' else '+')]
-                        try:key_code2 = key_codes[value['keys'][key_pressed]['send_key_stroks_to_vmix'][(modifier if modifier in value['keys'][key_pressed]['send_key_stroks_to_vmix'] else '')]] if key_pressed in value['keys'] else key_codes[key_pressed.split('+')[1]]
-                        except:key_code2=None
-                    else:
+                try:
+                    classes_found.append(window['class_name'])
+                    if 'window_title_contain' in value and len(value['window_title_contain'])>0:
+                        if not any(keyword in window['title'] for keyword in value['window_title_contain']):
+                            continue
+                        else:
+                            if 'window_title_not_contain' in value and len(value['window_title_not_contain'])>0:
+                                if any(keyword in window['title'] for keyword in value['window_title_not_contain']):
+                                    continue
+                    if 'window_class_contain' in value and len(value['window_class_contain'])>0:
+                        if not any(keyword in window['class_name'] for keyword in value['window_class_contain']):
+                            continue
+                    if 'need_to_activate' in value and value['need_to_activate']:
+                        if len(set(processes_found).intersection(set(value['dont_activate_if_process_exist']))) == 0 and len(set(classes_found).intersection(set(value['dont_activate_if_window_class_exist']))) == 0:
+                            if window['hwnd'] != win32gui.GetForegroundWindow():
+                                for i in range(2):
+                                    try:
+                                        win32gui.SetForegroundWindow(window['hwnd'])
+                                        time.sleep(0.05)
+                                    except:
+                                        pass
+                    if key=='foreground':
                         key_code1 = key_codes[key_pressed.split('+',1)[0]] if key_pressed!='+' else '+'
                         try:key_code2 = key_codes[key_pressed.split('+',1)[1]]
                         except:key_code2=None
-                else:
-                    key_code1 = key_codes[value['keys'][key_pressed][(modifier if modifier in value['keys'][key_pressed] else '')]] if key_pressed in value['keys'] else key_codes[(key_pressed.split('+')[0] if key_pressed!='+' else '+')]
-                    try:key_code2 = key_codes[value['keys'][key_pressed][(modifier if modifier in value['keys'][key_pressed] else '')]] if key_pressed in value['keys'] else key_codes[key_pressed.split('+')[1]]
-                    except:key_code2=None
-                if key_code1==key_code2:key_code2=None
-                if key=='foreground' and window['class_name'] == 'podiumparent' and active_process_name=='powerpnt.exe':continue
-                if key=='foreground' and window['class_name'] == 'podiumparent' and active_process_name=='powerpnt.exe':continue
-                win32gui.PostMessage(window['hwnd'] if key!='foreground' else window['active_control_hwnd'], win32con.WM_KEYDOWN, key_code1, make_lparam(key_code1, MapVirtualKey(key_code1, 0)))
-                if key_code2 is not None:
-                    win32gui.PostMessage(window['hwnd'] if key!='foreground' else window['active_control_hwnd'], win32con.WM_KEYDOWN, key_code2, make_lparam(key_code2, MapVirtualKey(key_code2, 0)))
-                time.sleep(0.05)
-                list_of_hwnd__we_sent_key_stroks.append(window['hwnd'])
-                if value['send_wm_keyup_also']:
+                    elif key==vmix_process_name:
+                        if 'send_key_stroks_to_vmix' in value['keys'][key_pressed]:
+                            key_code1 = key_codes[value['keys'][key_pressed]['send_key_stroks_to_vmix'][(modifier if modifier in value['keys'][key_pressed]['send_key_stroks_to_vmix'] else '')]] if key_pressed in value['keys'] else key_codes[(key_pressed.split('+')[0] if key_pressed!='+' else '+')]
+                            try:key_code2 = key_codes[value['keys'][key_pressed]['send_key_stroks_to_vmix'][(modifier if modifier in value['keys'][key_pressed]['send_key_stroks_to_vmix'] else '')]] if key_pressed in value['keys'] else key_codes[key_pressed.split('+')[1]]
+                            except:key_code2=None
+                        else:
+                            key_code1 = key_codes[key_pressed.split('+',1)[0]] if key_pressed!='+' else '+'
+                            try:key_code2 = key_codes[key_pressed.split('+',1)[1]]
+                            except:key_code2=None
+                    else:
+                        key_code1 = key_codes[value['keys'][key_pressed][(modifier if modifier in value['keys'][key_pressed] else '')]] if key_pressed in value['keys'] else key_codes[(key_pressed.split('+')[0] if key_pressed!='+' else '+')]
+                        try:key_code2 = key_codes[value['keys'][key_pressed][(modifier if modifier in value['keys'][key_pressed] else '')]] if key_pressed in value['keys'] else key_codes[key_pressed.split('+')[1]]
+                        except:key_code2=None
+                    if key_code1==key_code2:key_code2=None
+                    if key=='foreground' and window['class_name'] == 'podiumparent' and active_process_name=='powerpnt.exe':continue
+                    if key=='foreground' and window['class_name'] == 'podiumparent' and active_process_name=='powerpnt.exe':continue
+                    win32gui.PostMessage(window['hwnd'] if key!='foreground' else window['active_control_hwnd'], win32con.WM_KEYDOWN, key_code1, make_lparam(key_code1, MapVirtualKey(key_code1, 0)))
                     if key_code2 is not None:
-                        win32gui.PostMessage(window['hwnd'] if key!='foreground' else window['active_control_hwnd'], win32con.WM_KEYUP, key_code2, make_lparam(key_code2, MapVirtualKey(key_code2, 0), previous_state=1, transition=1))
-                    win32gui.PostMessage(window['hwnd'] if key!='foreground' else window['active_control_hwnd'], win32con.WM_KEYUP, key_code1, make_lparam(key_code1, MapVirtualKey(key_code1, 0), previous_state=1, transition=1))
-                time.sleep(0.05)
-                if 'make_sure_its_always_on_top' in value and value['make_sure_its_always_on_top']:
-                    try:
-                        win32gui.SetWindowPos(window['hwnd'],win32con.HWND_TOPMOST,0, 0, 0, 0,win32con.SWP_NOMOVE | win32con.SWP_NOSIZE)
-                    except:
-                        pass
-                if 'send_keys_to_first_match' in value and value['send_keys_to_first_match']:
-                    break
+                        win32gui.PostMessage(window['hwnd'] if key!='foreground' else window['active_control_hwnd'], win32con.WM_KEYDOWN, key_code2, make_lparam(key_code2, MapVirtualKey(key_code2, 0)))
+                    time.sleep(0.05)
+                    list_of_hwnd__we_sent_key_stroks.append(window['hwnd'])
+                    if value['send_wm_keyup_also']:
+                        if key_code2 is not None:
+                            win32gui.PostMessage(window['hwnd'] if key!='foreground' else window['active_control_hwnd'], win32con.WM_KEYUP, key_code2, make_lparam(key_code2, MapVirtualKey(key_code2, 0), previous_state=1, transition=1))
+                        win32gui.PostMessage(window['hwnd'] if key!='foreground' else window['active_control_hwnd'], win32con.WM_KEYUP, key_code1, make_lparam(key_code1, MapVirtualKey(key_code1, 0), previous_state=1, transition=1))
+                    time.sleep(0.05)
+                    if 'make_sure_its_always_on_top' in value and value['make_sure_its_always_on_top']:
+                        try:
+                            win32gui.SetWindowPos(window['hwnd'],win32con.HWND_TOPMOST,0, 0, 0, 0,win32con.SWP_NOMOVE | win32con.SWP_NOSIZE)
+                        except:
+                            pass
+                    if 'send_keys_to_first_match' in value and value['send_keys_to_first_match']:
+                        break
+                except:
+                    pass
+                    
     return False
 def get_windows_by_pid(target_process_pid):
     windows = []
@@ -1634,6 +1638,7 @@ class CustomMessageBox:
         
 class fullscreen_window:
     def __init__(self, root):
+        global old_all_monitors
         self.controls_list = {}
         self.font = (font_family,font_size,font_weight)
         self.settings = {}
@@ -1641,18 +1646,17 @@ class fullscreen_window:
         self.root.withdraw()
         self.root.iconphoto(False, ImageTk.PhotoImage(icon))
         self.root.title(t('Fullscreen'))
-        self.root.geometry("1180x650")  # Size of the control window
+        self.root.geometry("1180x650")
         self.root.configure(bg="#1e1e1e")
         self.root.resizable(False, False)
         self.main_frame = ttk.Frame(self.root, padding='0')
         self.main_frame.pack(fill=tk.BOTH, expand=True)
+        
+        all_monitors = get_all_screens_connected()
+        if all_monitors != old_all_monitors:
+            old_all_monitors = copy.deepcopy(all_monitors)
+            
         self.create_widgets()
-        self.root.update_idletasks()
-        self.root.minsize(
-            self.main_frame.winfo_reqwidth() + 10,
-            self.main_frame.winfo_reqheight() + 10
-        )
-        self.root.deiconify()
         
     def fullscreen(self,in_device,monitor_name):
         global fullscreen_ffplay
@@ -1704,11 +1708,11 @@ class fullscreen_window:
         self.fullscreen(selected_value,moniter_name)
 
     def create_widgets(self):
+        for widget in self.root.winfo_children():
+            if isinstance(widget, tk.Frame):
+                widget.destroy()
         global fullscreen_ffplay
         global old_all_monitors
-        all_monitors = get_all_screens_connected()
-        if all_monitors != old_all_monitors:
-            old_all_monitors = copy.deepcopy(all_monitors)
         min_x = min(s['x'] for s in old_all_monitors)
         min_y = min(s['y'] for s in old_all_monitors)
         max_x = max(s['x'] + s['width'] for s in old_all_monitors)
@@ -1757,7 +1761,13 @@ class fullscreen_window:
                 self.controls_list[f'combobox_{screen["name"]}'].set(combo_options[0])
             self.controls_list[f'combobox_{screen["name"]}'].pack(side='bottom', pady=(0, 5), padx=5, fill='x')
             self.controls_list[f'combobox_{screen["name"]}'].bind('<<ComboboxSelected>>', lambda event, moniter_name=screen['name']: self.option_click(event, moniter_name))
-            
+        self.root.update_idletasks()
+        self.root.minsize(
+            self.main_frame.winfo_reqwidth() + 10,
+            self.main_frame.winfo_reqheight() + 10
+        )
+        self.root.deiconify()
+        
 class pdf2png_window:
     class right_click_menu:
         def __init__(self, e):
@@ -3521,6 +3531,7 @@ def run_server_thread_2(server):
 def monitor_monitors_changes():
     global old_all_monitors
     global fullscreen_ffplay
+    global tk_fullscreen_window
     last_screens = []
     current_screens = []
     windows = []
@@ -3542,6 +3553,10 @@ def monitor_monitors_changes():
                 all_monitors = get_all_screens_connected()
                 if all_monitors != old_all_monitors:
                     old_all_monitors = copy.deepcopy(all_monitors)
+                    try:
+                        tk_fullscreen_window.create_widgets()
+                    except:
+                        pass
             if len(fullscreen_ffplay)>0:
                 print(fullscreen_ffplay)
                 for monitors_key in list(fullscreen_ffplay.keys()):
