@@ -598,7 +598,9 @@ translation_dict = {
     'Primary':
         'Primary',
     'Convert PDF to Pictures':
-        'Convert PDF to Pictures'
+        'Convert PDF to Pictures',
+    'DONE':
+        'DONE'
 }
 #################################################translation section
 def t(string):
@@ -636,9 +638,6 @@ def is_already_running():
         return False
     except:
         return False
-
-if is_already_running():
-    os._exit(0)
     
 import time
 import ctypes
@@ -671,6 +670,9 @@ from datetime import datetime
 import win32com.shell.shell as shell
 import random
 import string
+import multiprocessing
+import gc
+from pathlib import Path
 ########################################Globals section######################################################################################################################################################################
 
 icon_base64 = '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JP+9eCT/vXgks7t2IgC9eCRsvXgk/714JP+9eCT/vXgk/714JP+9eCT/vXgk/714JP+9eCT/vXgk/714JP+9eCT/vXgk/714JP+9eCT/vXgk/714JP+9eCT/vXgkbL15JAC9eCSnvXgk/714JP+9eCT/vXgk/714JP+9eCT/vXgk/714JP+9eCSzu3YiAL14JGy9eCT/vXgk/714JP+9eCT/vXgk/714JP+9eCT/vXgk/714JP+9eCT/vXgk/714JP+9eCT/vXgk/714JP+9eCT/vXgk/714JP+9eCRsvXkkAL14JKe9eCT/vXgk/714JP+9eCT/vXgk/714JP+9eCT/vXgk/714JLO7diIAvXgkbL14JP+9eCT/vXgk/714JP+9eCT/vXgk/714JP+9eCT/vXgk/714JP+9eCT/vXgk/714JP+9eCT/vXgk/714JP+9eCT/vXgk/714JGy9eSQAvXgkp714JP+9eCT/vXgk/714JP+9eCT/vXgk/714JP+9eCT/vXgks7t2IgC9eCRsvXgk/714JP+9eCT/vXgk/714JP+9eCT/vXgk/714JP+9eCT/vXgk/714JP+9eCT/vXgk/714JP+9eCT/vXgk/714JP+9eCT/vXgkbL15JAC9eCSnvXgk/714JP+9eCT/vXgk/714JP+9eCT/vXgk/714JP+9eCSzu3YiAL14JGy9eCT/vXgk/714JP+9eCT/vXgk/714JP+9eCT/vXgk/714JP+9eCT/vXgk/714JP+9eCT/vXgk/714JP+9eCT/vXgk/714JP+9eCRsvXkkAL14JKe9eCT/vXgk/714JP+9eCT/vXgk/714JP+9eCT/vXgk/714JLO7diIAvXgkbL14JP+9eCT/vXgk/714JP+9eCT/vXgk/714JP+9eCT/vXgk/714JP+9eCT/vXgk/714JP+9eCT/vXgk/714JP+9eCT/vXgk/714JGy9eSQAvXgkp714JP+9eCT/vXgk/714JP+9eCT/vXgk/714JP+9eCT/vXgks7t2IgG9eCRsvXgk/714JP+9eCT/vXgk/714JP+9eCT/vXgk/714JP+9eCT/vXgkp714JKe9eCSnvXgkp714JKe9eCSnvXgkp714JKe9eCSovXgkR715JAC9eCRuvXgkqr14JKe9eCSnvXgkp714JKe9eCSnvXgkp714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'
@@ -1440,97 +1442,6 @@ def lowercase_dict_keys_and_values(data):
         
 options = lowercase_dict_keys_and_values(options)
 
-class frame_layout():
-    def __init__(self,root):
-        self.root = tk.Toplevel(root)
-        self.root.withdraw()
-        self.visible = False
-        self.root.overrideredirect(True)
-        self.root.attributes('-transparentcolor', 'white')
-        self.root.attributes('-topmost', True)
-        self.width = 1
-        self.height = 1
-        self.x_pos = 0
-        self.y_pos = 0
-        self.selected_layer = '0'
-        self.root.geometry(f'{self.width}x{self.height}+{self.x_pos}+{self.y_pos}')
-
-        self.canvas = tk.Canvas(
-            self.root,
-            width=self.width,
-            height=self.height,
-            bg='white',
-            highlightthickness=0
-        )
-        self.canvas.pack(fill=tk.BOTH, expand=True)
-        self.frame_id = self.canvas.create_rectangle(
-            0, 0, self.width-1, self.height-1,
-            outline='red',
-            width=3
-        )
-
-        self.here_button = tk.Button(
-            self.root, text=t('here!'), command=self.here_button_click,
-            bg='red', activebackground='red', padx=1, pady=1
-        )
-        self.here_button.place(relx=0.5, rely=0.5, anchor=tk.CENTER)
-        
-        self.close_button = tk.Button(
-            self.root, text='X', command=self.close_frame,
-            bg='red', activebackground='red', padx=1, pady=1
-        )
-        self.close_button.place(relx=1.0, x=-5, y=5, anchor=tk.NE)
-        
-    def here_button_click(self): 
-        page = f'http://127.0.0.1:{str(vmix_port)}/api/'
-        try:
-            response = requests.get(page,timeout=0.2)
-        except:
-            return
-        xmlDoc = ET.fromstring(response.text)
-        
-        activeNode = xmlDoc.find('./active')
-        previewNode = xmlDoc.find('./preview')
-
-        if activeNode is None or previewNode is None:return
-        try:
-            send = f'http://127.0.0.1:{str(vmix_port)}/api/?Function=setmultiviewoverlay&input={activeNode.text}&value={str(int(self.selected_layer)+1)},{previewNode.text}'
-            response = requests.get(send, timeout=0.2)
-        except:
-            return
-        
-    def show_frame(self, width, height, x, y, selected_layer):
-        if self.visible == False or self.width != width or self.height != height or self.x_pos != x or self.y_pos != y:
-            self.root.geometry(f'{width}x{height}+{x}+{y}')
-            self.canvas.config(width=width, height=height)
-            self.canvas.coords(self.frame_id, 0, 0, width-1, height-1)
-            self.root.attributes('-transparentcolor', 'white')
-            self.root.deiconify()
-            self.width = width
-            self.height = height
-            self.x_pos = x
-            self.y_pos = y
-            self.selected_layer = selected_layer
-            self.visible = True
-        
-    def hide_frame(self):
-        self.root.withdraw()
-        self.visible = False
-        
-    def close_frame(self):
-        time.sleep(0.05)
-        self.root.withdraw()
-        self.visible = False
-
-    def frame_is_visible(self):
-        return self.visible
-        
-    def get_hwnd(self):
-        return win32gui.GetParent(self.root.winfo_id())
-        
-    def exit(self):
-        self.root.destroy()
-
 class CustomMessageBox:
     class right_click_menu:
         def __init__(self, e):
@@ -1651,11 +1562,11 @@ class fullscreen_window:
         self.root.resizable(False, False)
         self.main_frame = ttk.Frame(self.root, padding='0')
         self.main_frame.pack(fill=tk.BOTH, expand=True)
-        
+
         all_monitors = get_all_screens_connected()
         if all_monitors != old_all_monitors:
             old_all_monitors = copy.deepcopy(all_monitors)
-            
+
         self.create_widgets()
         
     def fullscreen(self,in_device,monitor_name):
@@ -1767,7 +1678,69 @@ class fullscreen_window:
             self.main_frame.winfo_reqheight() + 10
         )
         self.root.deiconify()
-        
+def save_pdf(import_vmix, srcfile, target_folder, dpi, rotation, flip_h, flip_v, result_queue):
+    try:
+        import pymupdf
+    except:
+        process = subprocess.Popen([
+            'powershell.exe', 
+            '-Command',
+            '''
+            Write-host "`nvMix Helper. Staring Installation of Microsoft Visual C++ 2015-2022 x64"
+            $vcRedistUrl = "https://aka.ms/vs/17/release/vc_redist.x64.exe"
+            $installerPath = "$env:TEMP\\vc_redist.x64.exe"
+            try {
+                Invoke-WebRequest -Uri $vcRedistUrl -OutFile $installerPath -UseBasicParsing -ErrorAction Stop
+                Start-Process -FilePath $installerPath -ArgumentList "/passive", "/norestart" -Wait
+                Remove-Item $installerPath -Force
+            }
+            catch {
+                Write-Error "Failed to install VC++ Redistributable:" $_.Exception.Message
+                exit 1
+            }
+            '''
+        ], creationflags=subprocess.CREATE_NEW_CONSOLE)
+        process.wait()
+        try:
+            import pymupdf
+        except Exception as e:
+            result_queue.put(f"Error: {str(e)}")
+            return
+    try:
+        doc = pymupdf.open(srcfile)
+        if not os.path.exists(target_folder):
+            os.makedirs(target_folder)
+            
+        mat = pymupdf.Matrix(int(dpi) / 72, int(dpi) / 72)
+        if rotation == '90': mat = mat * pymupdf.Matrix(0, 1, -1, 0, 0, 0)
+        elif rotation == '180': mat = mat * pymupdf.Matrix(-1, 0, 0, -1, 0, 0)
+        elif rotation == '270': mat = mat * pymupdf.Matrix(0, -1, 1, 0, 0, 0)
+            
+        if flip_h or flip_v:
+            mat = mat * pymupdf.Matrix((-1 if flip_h else 1), 0, 0, (1 if flip_h and not flip_v else -1), 0, 0)
+
+        total_pages = len(doc)
+        for page_num in range(total_pages):
+            result_queue.put(f'{str(round((((page_num+1)/total_pages)*100),1))}%')
+            page = doc.load_page(page_num)
+            pix = page.get_pixmap(matrix=mat)
+            
+            output_image_path = os.path.join(target_folder, f'page_{(page_num+1):04d}.png')
+            pix.save(output_image_path)
+            
+            pix = None
+            page = None
+            
+            if page_num % 5 == 0:
+                pymupdf.TOOLS.store_shrink(100)
+                gc.collect()
+                
+        doc.close()
+        pymupdf.TOOLS.store_shrink(100)
+        result_queue.put('DONE')
+    except Exception as e:
+        result_queue.put(f"Error: {str(e)}")
+
 class pdf2png_window:
     class right_click_menu:
         def __init__(self, e):
@@ -1789,13 +1762,14 @@ class pdf2png_window:
             shell32.DragQueryFileW(wp, 0, buffer, length + 1)
             shell32.DragFinish(wp)
             self.settings['entry_file'].set(buffer.value)
+            self.settings['entry_folder'].set(os.path.expandvars('%USERPROFILE%\\Desktop\\' + Path(buffer.value).stem))
             return 0
         return user32.CallWindowProcW(self.original_wndproc, hwnd, msg, wp, lp)
         
     def __init__(self, root):
         self.controls_list = {}
         self.initialdir_in = os.path.expanduser('~')
-        self.initialdir_out = os.path.expanduser('~')
+        self.initialdir_out = os.path.expandvars('%USERPROFILE%\\Desktop\\')
         self.font = (font_family,font_size,font_weight)
         self.settings = {}
         self.root = tk.Toplevel(root)
@@ -1812,6 +1786,8 @@ class pdf2png_window:
             self.main_frame.winfo_reqheight() + 10
         )
         self.root.deiconify()
+        self.status_queue = None
+        self.save_process = None
         
     def create_widgets(self):
         frame = ttk.LabelFrame(self.main_frame, text=t('Settinges :'), padding='0')
@@ -1820,7 +1796,7 @@ class pdf2png_window:
         ttk.Label(frame, text=t('File : '),font=self.font).grid(row=0, column=0, sticky='e')
         self.settings['entry_file'] = StringVar(value='')
         self.controls_list['entry_file'] = ttk.Entry(
-                frame, 
+                frame,
                 textvariable=self.settings['entry_file'],
                 width=50,
                 font=self.font
@@ -1830,12 +1806,9 @@ class pdf2png_window:
         tk.Button(frame, text=t('Browse'), command=self.browse_file,font=self.font).grid(row=0, column=2, padx=1, sticky='e')
 
         ttk.Label(frame, text=t('Save Folder : '),font=self.font).grid(row=1, column=0, sticky='e')
-        new_path = re.sub(r'%[YmdHMS%-]+',lambda m: datetime.now().strftime(m.group(0)),r'' + '%USERPROFILE%\\Desktop\\PDF_%Y-%m-%d_%H-%M-%S')
-        expanded_path = os.path.expandvars(new_path)
-        expanded_path = os.path.expanduser(expanded_path)
-        self.settings['entry_folder'] = StringVar(value=expanded_path)
+        self.settings['entry_folder'] = StringVar(value='')
         self.controls_list['entry_folder'] = ttk.Entry(
-                frame, 
+                frame,
                 textvariable=self.settings['entry_folder'],
                 width=50,
                 font=self.font
@@ -1910,6 +1883,7 @@ class pdf2png_window:
         if filepath:
             self.settings['entry_file'].set(filepath.replace('/','\\'))
             self.initialdir_in = os.path.dirname(self.settings['entry_file'].get())
+            self.settings['entry_folder'].set(os.path.expandvars('%USERPROFILE%\\Desktop\\' + Path(self.settings['entry_file'].get()).stem))
     
     def browse_folder(self):
         folderpath = filedialog.askdirectory(
@@ -1923,14 +1897,15 @@ class pdf2png_window:
             
     def save_import(self):
         self.save(True)
-        
+
     def save(self,import_vmix=False):
         if not os.path.exists(self.settings['entry_file'].get()):
             self.controls_list['progress'].config(text=t('Please select file input.'))
             return
         self.controls_list['save_button']['state']= tk.DISABLED
         self.controls_list['save_import_button']['state']= tk.DISABLED
-        save_thread = threading.Thread(target=self.save_pdf, args=(
+        self.status_queue = multiprocessing.Queue()
+        self.save_process = multiprocessing.Process(target=save_pdf, args=(
             import_vmix,
             self.settings['entry_file'].get(),
             self.settings['entry_folder'].get(),
@@ -1938,83 +1913,28 @@ class pdf2png_window:
             self.settings['combobox_rotation'].get(),
             self.settings['Checkbutton_flip_h'].get(),
             self.settings['Checkbutton_flip_v'].get(),
-            self.root,
-            self.controls_list['progress'],
-            self.controls_list['save_button'],
-            self.controls_list['save_import_button']
+            self.status_queue
         ))
-        save_thread.start()
         
-    def save_pdf(self,import_vmix,srcfile,target_folder,dpi=200,rotation='0',flip_h=False,flip_v=False,window=None,progress_text=None,savebutton=None,save_importbutton=None):
+        self.save_process.start()
+        self.check_queue()
+        
+    def check_queue(self):
         try:
-            import pymupdf
-        except:
-            process = subprocess.Popen([
-                'powershell.exe', 
-                '-Command',
-                '''
-                Write-host "`nvMix Helper. Staring Installation of Microsoft Visual C++ 2015-2022 x64"
-                $vcRedistUrl = "https://aka.ms/vs/17/release/vc_redist.x64.exe"
-                $installerPath = "$env:TEMP\\vc_redist.x64.exe"
-                try {
-                    Invoke-WebRequest -Uri $vcRedistUrl -OutFile $installerPath -UseBasicParsing -ErrorAction Stop
-                    Start-Process -FilePath $installerPath -ArgumentList "/passive", "/norestart" -Wait
-                    Remove-Item $installerPath -Force
-                }
-                catch {
-                    Write-Error "Failed to install VC++ Redistributable:" $_.Exception.Message
-                    exit 1
-                }
-                '''
-            ], creationflags=subprocess.CREATE_NEW_CONSOLE)
-            process.wait()
-            try:
-                import pymupdf
-            except Exception as e:
-                progress_text.config(text=e)
-                window.update_idletasks()
-                savebutton['state']= tk.NORMAL
-                save_importbutton['state']= tk.NORMAL
+            update = self.status_queue.get(block=False)
+            if update == "DONE" or update.startswith("Error:"):
+                self.controls_list['progress'].config(text=t(update))
+                self.controls_list['save_button'].config(state="normal")
+                self.controls_list['save_import_button'].config(state="normal")
+                self.root.update_idletasks()
+                self.save_process.join()
                 return
-        try:
-            doc = pymupdf.open(srcfile)
-            if not os.path.exists(target_folder):
-                os.makedirs(target_folder)
-            mat = pymupdf.Matrix(int(dpi) / 72, int(dpi) / 72)
-            if rotation == '90':
-                mat = mat * pymupdf.Matrix(0, 1, -1, 0, 0, 0)
-            if rotation == '180':
-                mat = mat * pymupdf.Matrix(-1, 0, 0, -1, 0, 0)
-            if rotation == '270':
-                mat = mat * pymupdf.Matrix(0, -1, 1, 0, 0, 0)
-            if flip_h or flip_v:
-                mat = mat * pymupdf.Matrix((-1 if flip_h else 1), 0, 0, (1 if flip_h and not flip_v else -1), 0, 0)
-
-            for page_num in range(len(doc)):
-                progress_text.config(text=f'{str(round((((page_num+1)/len(doc))*100),1))}%')
-                window.update_idletasks()
-                page = doc.load_page(page_num)
-                pix = page.get_pixmap(matrix=mat)
-                output_image_path = os.path.join(target_folder, f'page_{(page_num+1):04d}.png')
-                pix.save(output_image_path)
-            doc.close()
-            pymupdf.TOOLS.store_shrink(100)
-            if import_vmix:
-                page = f'http://127.0.0.1:{str(vmix_port)}/api/?Function=AddInput&Value=Photos|{target_folder}'
-                try:
-                    response = requests.get(page, timeout=1)
-                except:
-                    pass
-            new_path = re.sub(r'%[YmdHMS%-]+',lambda m: datetime.now().strftime(m.group(0)),r'' + self.initialdir_out + '\\PDF_%Y-%m-%d_%H-%M-%S')
-            expanded_path = os.path.expandvars(new_path)
-            expanded_path = os.path.expanduser(expanded_path)
-            self.settings['entry_folder'].set(expanded_path.replace('\\\\','\\'))
-        except Exception as e:
-            progress_text.config(text=e)
-            window.update_idletasks()
-            
-        savebutton['state']= tk.NORMAL
-        save_importbutton['state']= tk.NORMAL
+            else:
+                self.controls_list['progress'].config(text=update)
+                self.root.update_idletasks()
+        except multiprocessing.queues.Empty:
+            pass
+        self.root.after(100, self.check_queue)
         
 class settings_window:
     ffmpeg_default_settings = {
@@ -2469,8 +2389,6 @@ class settings_window:
         
     def process_command(self):
         global virtual_audio_device_id
-        from datetime import datetime
-        from pathlib import Path
         is_multi_output = True if (len(self.settings['ffmpeg_destination'].get())>0 and '[' in self.settings['ffmpeg_destination'].get()[0]) else False
         template = self.controls_list[f'tab2_textbox'].get('1.0', tk.END).strip() if is_multi_output else self.controls_list[f'tab1_textbox'].get('1.0', tk.END).strip()
 
@@ -2678,7 +2596,105 @@ def close_ffmpeg_thread(wait=True):
     except:
         ffmpeg_processes_closing_is_running = False
         return
-            
+
+        
+class frame_layout():
+    def __init__(self,root):
+        self.root = tk.Toplevel(root)
+        self.root.withdraw()
+        self.visible = False
+        self.root.overrideredirect(True)
+        self.root.attributes('-transparentcolor', 'white')
+        self.root.attributes('-topmost', True)
+        self.width = 1
+        self.height = 1
+        self.x_pos = 0
+        self.y_pos = 0
+        self.selected_layer = '0'
+        self.x_is_clicked = False
+        self.root.geometry(f'{self.width}x{self.height}+{self.x_pos}+{self.y_pos}')
+
+        self.canvas = tk.Canvas(
+            self.root,
+            width=self.width,
+            height=self.height,
+            bg='white',
+            highlightthickness=0
+        )
+        self.canvas.pack(fill=tk.BOTH, expand=True)
+        self.frame_id = self.canvas.create_rectangle(
+            0, 0, self.width-1, self.height-1,
+            outline='red',
+            width=3
+        )
+
+        self.here_button = tk.Button(
+            self.root, text=t('here!'), command=self.here_button_click,
+            bg='red', activebackground='red', padx=1, pady=1
+        )
+        self.here_button.bind('<Button-1>', self.set_widget_is_clicked)
+        self.here_button.place(relx=0.5, rely=0.5, anchor=tk.CENTER)
+        
+        self.close_button = tk.Button(
+            self.root, text='X', command=self.hide_frame,
+            bg='red', activebackground='red', padx=1, pady=1
+        )
+        self.close_button.bind('<Button-1>', self.set_widget_is_clicked)
+        self.close_button.place(relx=1.0, x=-5, y=5, anchor=tk.NE)
+        
+        self.root.update_idletasks()
+        hwnd = int(self.root.wm_frame(), 16)
+        current_style = win32gui.GetWindowLong(hwnd, win32con.GWL_EXSTYLE)
+        win32gui.SetWindowLong(hwnd, win32con.GWL_EXSTYLE, current_style | win32con.WS_EX_NOACTIVATE | win32con.WS_EX_TOOLWINDOW)
+    
+    def set_widget_is_clicked(self, event):
+        global frame_thread_1
+        frame_thread_1.widget_is_clicked = True
+        
+    def here_button_click(self):
+
+        page = f'http://127.0.0.1:{str(vmix_port)}/api/'
+        try:
+            response = requests.get(page,timeout=0.2)
+        except:
+            return
+        xmlDoc = ET.fromstring(response.text)
+        
+        activeNode = xmlDoc.find('./active')
+        previewNode = xmlDoc.find('./preview')
+
+        if activeNode is None or previewNode is None:return
+        try:
+            send = f'http://127.0.0.1:{str(vmix_port)}/api/?Function=setmultiviewoverlay&input={activeNode.text}&value={str(int(self.selected_layer)+1)},{previewNode.text}'
+            response = requests.get(send, timeout=0.2)
+        except:
+            return
+        
+    def show_frame(self, width, height, x, y, selected_layer):
+        if self.visible == False or self.width != width or self.height != height or self.x_pos != x or self.y_pos != y:
+            self.root.geometry(f'{width}x{height}+{x}+{y}')
+            self.canvas.config(width=width, height=height)
+            self.canvas.coords(self.frame_id, 0, 0, width-1, height-1)
+            self.root.attributes('-transparentcolor', 'white')
+            self.root.deiconify()
+            self.width = width
+            self.height = height
+            self.x_pos = x
+            self.y_pos = y
+            self.selected_layer = selected_layer
+            self.visible = True
+
+    def hide_frame(self):
+        self.root.withdraw()
+        self.visible = False
+        frame_thread_1.stop_frame_reposition()
+
+    def frame_is_visible(self):
+        return self.visible
+        
+    def exit(self):
+        self.root.destroy()
+        
 class frame_thread(threading.Thread):
     def __init__(self,_layout_frame_window):
         super().__init__()
@@ -2689,11 +2705,9 @@ class frame_thread(threading.Thread):
         self.vmix_hwnd=0
         self.output_hwnd=0
         self.vmix_resolution={'width':0,'height':0}
-        self.show_frame = False
-
-    def run(self):
-        self.show_frame_func()
-
+        self.show_frame_func_isup = False
+        self.widget_is_clicked = False
+        
     def get_output_window(self,active_window_hwnd):
         output_window = {}
         if active_window_hwnd != self.vmix_hwnd:
@@ -2701,7 +2715,7 @@ class frame_thread(threading.Thread):
             windows = self.list_child_windows(active_window_hwnd)
             tmp_left = 0
             for window in windows:
-                if window['rect_window'][1]-client_top == 54:
+                if window['rect_window'][1]-client_top >= 53 and window['rect_window'][1]-client_top <= 55:
                     if window['client_left']>tmp_left:
                         tmp_left = window['client_left']
                         output_window = window
@@ -2720,50 +2734,58 @@ class frame_thread(threading.Thread):
             }
         return output_window
         
-    def show_frame_func(self):
-        while not self._stop_event.is_set():
+    def show_frame_func_clear(self):
+        self.layout_frame_window.hide_frame()
+        self.show_frame_func_isup = False
+        self._stop_event.clear()
+            
+    def show_frame_func(self,mouse_x,mouse_y):
+        self.selected_layer_input = ''
+        l_w, l_h, l_x, l_y, window_w, window_h, window_x, window_y = 0,0,0,0,0,0,0,0
+        while True:
             try:
-                time.sleep(0.1)
-                if self.show_frame:
-                    self.selected_layer_input = ''
-                if self.show_frame or self.layout_frame_window.frame_is_visible():
-                    self.show_frame = False
+                time.sleep(0.05)
+                if not self._stop_event.is_set():
                     active_window_hwnd = win32gui.GetForegroundWindow()
                     active_process_name = psutil.Process(win32process.GetWindowThreadProcessId(active_window_hwnd)[1]).name().lower()
-                    if active_process_name == 'vmix64.exe':
+                    if active_process_name == vmix_process_name:
                         active_window_title = win32gui.GetWindowText(active_window_hwnd).lower()
                         if 'vmix' in active_window_title and 'screen' not in active_process_name:
                             output_window = self.get_output_window(active_window_hwnd)
                             if not output_window:continue
-                            mouse_x = mouse.get_position()[0]
-                            mouse_y = mouse.get_position()[1]
-                            window_w = output_window['rect_client'][2]
-                            window_h = output_window['rect_client'][3]
-                            window_x = output_window['rect_window'][0]
-                            window_y = output_window['rect_window'][1]
-                            result = self.get_layer_position_and_number(mouse_x-window_x,mouse_y-window_y,window_w,window_h,self.selected_layer_input)
+                            result = self.get_layer_position_and_number(mouse_x-output_window['rect_window'][0],mouse_y-output_window['rect_window'][1],output_window['rect_client'][2],output_window['rect_client'][3],self.selected_layer_input)
                             if result is None and self.layout_frame_window.frame_is_visible():
-                                self.layout_frame_window.hide_frame()
+                                self.show_frame_func_clear()
+                                return
                             elif result is not None:
-                                self.layout_frame_window.show_frame(result['w'],result['h'],result['x']+window_x,result['y']+window_y,result['number'])
-                                self.selected_layer_input = result['number']
+                                if (result['w'] != l_w or result['h'] != l_h or result['x'] != l_x or result['y'] != l_y
+                                        or window_w != output_window['rect_client'][2] or window_h != output_window['rect_client'][3]
+                                        or window_x != output_window['rect_window'][0] or window_y != output_window['rect_window'][1]):
+                                    l_w, l_h, l_x, l_y = result['w'], result['h'], result['x'] ,result['y']
+                                    window_w, window_h, window_x, window_y = output_window['rect_client'][2],output_window['rect_client'][3],output_window['rect_window'][0],output_window['rect_window'][1]
+                                    self.layout_frame_window.show_frame(result['w'],result['h'],result['x']+window_x,result['y']+window_y,result['number'])
+                                    self.selected_layer_input = result['number']
                         elif self.layout_frame_window.frame_is_visible():
-                            self.layout_frame_window.hide_frame()
-                    elif active_window_hwnd != self.layout_frame_window.get_hwnd() and self.layout_frame_window.frame_is_visible():
-                        self.layout_frame_window.hide_frame()
+                            self.show_frame_func_clear()
+                            return
+                    elif self.layout_frame_window.frame_is_visible():
+                        self.show_frame_func_clear()
+                        return
+                else:
+                    self.show_frame_func_isup = False
+                    self._stop_event.clear()
+                    return
             except:
                 pass
-        if self.layout_frame_window.frame_is_visible():
-            self.layout_frame_window.hide_frame()
         
     def on_mouse_click(self):
+        if self.widget_is_clicked:
+            self.widget_is_clicked = False
+            return
         try:
             active_window_hwnd = win32gui.GetForegroundWindow()
-            time.sleep(0.05)
-            if active_window_hwnd != win32gui.GetForegroundWindow():
-                return
             active_process_name = psutil.Process(win32process.GetWindowThreadProcessId(active_window_hwnd)[1]).name().lower()
-            if active_process_name == 'vmix64.exe':
+            if active_process_name == vmix_process_name:
                 active_window_title = win32gui.GetWindowText(active_window_hwnd).lower()
                 if 'vmix' in active_window_title and 'screen' not in active_process_name:
                     output_window = self.get_output_window(active_window_hwnd)
@@ -2774,9 +2796,18 @@ class frame_thread(threading.Thread):
                     window_x = output_window['rect_window'][0]
                     window_y = output_window['rect_window'][1]
                     if ((mouse_x > window_x and mouse_x < (window_x+window_w)) and (mouse_y > window_y and mouse_y < (window_y+window_h))):
-                        self.show_frame = True
+                        if self.show_frame_func_isup:
+                            self._stop_event.set()
+                            while self.show_frame_func_isup:
+                                time.sleep(0.01)
+                        self.show_frame_func_isup = True
+                        threading.Thread(target=self.show_frame_func,args=(mouse_x,mouse_y)).start()
         except:
-            pass        
+            pass
+            
+    def stop_frame_reposition(self):
+        self._stop_event.set()
+        
     def stop(self):
         mouse.unhook_all()
         self._stop_event.set()
@@ -3598,6 +3629,7 @@ def main():
     global thread_monitor_ffmpeg_processes
     global thread_monitor_screens
     global virtual_audio_device_id
+    multiprocessing.freeze_support()
     load_settings_fromfile()
     check_startup()
     root = tk.Tk()
@@ -3631,4 +3663,6 @@ def main():
         os._exit(0)
         
 if __name__ == '__main__':
+    if is_already_running():
+        os._exit(0)
     main()
