@@ -1737,6 +1737,12 @@ def save_pdf(import_vmix, srcfile, target_folder, dpi, rotation, flip_h, flip_v,
                 
         doc.close()
         pymupdf.TOOLS.store_shrink(100)
+        if import_vmix:
+            page = f'http://127.0.0.1:{str(vmix_port)}/api/?Function=AddInput&Value=Photos|{target_folder}'
+            try:
+                response = requests.get(page, timeout=1)
+            except:
+                pass
         result_queue.put('DONE')
     except Exception as e:
         result_queue.put(f"Error: {str(e)}")
